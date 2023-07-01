@@ -23,7 +23,7 @@ app.get('/students', async (req, res) => {
 
 });
 
-app.post('/students', async (req, res) => {
+app.post('/create', async (req, res) => {
     try {
     const name = req.body.name;
     const email = req.body.email;
@@ -37,22 +37,23 @@ app.post('/students', async (req, res) => {
     }
 });
 
-app.get('/students/:id', async (req, res) => {
-
+app.delete('/delete/:id', async (req, res) => {
     try {
     const id = req.params.id;
     const student = await Student.findByPk(id);
+    await student.destroy();
     res.json(student);
     } catch (e) {
     console.error(e);
-        
+
     res.status(500).json({message: e.message});
     }
 });
 
-app.put('/students/:id', async (req, res) => {
+
+app.put('/update', async (req, res) => {
     try {
-    const id = req.params.id;
+    const id = req.body.id;
     const student = await Student.findByPk(id);
     const name = req.body.name;
     const email = req.body.email;
